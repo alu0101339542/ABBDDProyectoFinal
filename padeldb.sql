@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS team_mate;
 CREATE TABLE player(
   player_id INT GENERATED ALWAYS AS IDENTITY,
   player_name VARCHAR(30),
-  phone_number numeric(9) UNIQUE, /*quiero que solo pueda tener 9 digitos. Probablemente se haga con un trigger Posiblemente haya que hacer una función*/
+  phone_number INT UNIQUE, /*quiero que solo pueda tener 9 digitos. Probablemente se haga con un trigger Posiblemente haya que hacer una función*/
   PRIMARY KEY(player_id)
   );
 
@@ -79,13 +79,17 @@ CREATE TABLE tournament(
 CREATE TABLE tournament_teams( /*Hay que hacer qeu sea potencia de 2*/
   tournament_id INT,
   team_id INT,
-  PRIMARY KEY (tournament_id),
+  --PRIMARY KEY (tournament_id),
   CONSTRAINT fk_teams_tournament
     FOREIGN KEY (tournament_id)REFERENCES tournament(tournament_id),
     FOREIGN KEY (team_id)REFERENCES team(team_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
+--This will assure the same team is not twice on the same tournament
+CREATE UNIQUE INDEX index_tournament_teams
+ON tournament_teams (tournament_id, team_id);
 
 CREATE TABLE facility(
   facility_id INT GENERATED ALWAYS AS IDENTITY,
@@ -174,57 +178,3 @@ CREATE TABLE ranking(
 /*COMMIT;*/
 
 /*Esto se hará en otro ficchero para que quede mas limpio*/
-INSERT INTO player(player_name, phone_number)
-VALUES
-('Pablo Pastor', 633424899),
-('Juan Lebron', 63249797),
-('Alejandro Galan', 677342576),
-('Paquito Navarro', 674269328);
-
-INSERT INTO team(player_1, player_2)
-VALUES
-(1, 2),
-(2, 4); /*arreglar esto no puede ser posible*/
-
-INSERT INTO tournament(tournament_name, begining_date, ending_date, winner)
-VALUES 
-('Mutua open', '2020-08-24','2020-09-21', 1);
-
-INSERT INTO tournament_teams(tournament_id, team_id)
-VALUES
-(1, 1);
-
-INSERT INTO facility(f_location)
-VALUES
-('La Cuesta');
-
-INSERT INTO tournament_facility(tournament_id, facility_id)
-VALUES
-(1,1);
-
-INSERT INTO court(facility_id, price)
-VALUES
-(1,25.75);
-
-INSERT INTO match(team1_id, team2_id, team1_score, team2_score, facility_id, match_date, tournament_id)
-VALUES
-(1, 2, 6, 3, 1,'2022-04-01',1),
-(1, 2, 7, 5, 1,'2022-04-01',1);
-/*nUMERO DE EQUIPOS MULTIPLO DE 2*/
-
-INSERT INTO teams_qualified(team_id, tournament_id)
-VALUES
-(1, 1);
- 
-INSERT INTO captain(player_id, captain_bonus)
-VALUES
-(1, 400);
-
-INSERT INTO ranking(player_id, wins, defeats)
-VALUES
-(1, 4, 3);
- 
-INSERT INTO team_mate(player_id, best_season)
-VALUES
-(2, 2020-2021);
- 
