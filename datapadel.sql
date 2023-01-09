@@ -53,17 +53,27 @@ VALUES
 
 INSERT INTO court(facility_id, price)
 VALUES
-(1,25.75);
+(1,25.75),
+(1,12.3);
+
+INSERT INTO ranking(player_id, wins, defeats)
+VALUES
+(1, 4, 3),
+(2, 3, 4),
+(3,5, 2),
+(4, 2, 5),
+(5, 5, 0);
 
 INSERT INTO match(team1_id, team2_id, team1_score, team2_score, facility_id, match_date, tournament_id)
 VALUES
 (1, 2, 6, 3, 1,'2022-04-01',1),
-(1, 2, 7, 5, 1,'2022-04-01',1);
-/*nUMERO DE EQUIPOS MULTIPLO DE 2*/
+(2, 3, 5, 7, 1,'2022-04-01', 2);
+
 
 INSERT INTO teams_qualified(team_id, tournament_id)
 VALUES
-(1, 1);
+(1, 1),
+(2,3);
  
 INSERT INTO captain(player_id, captain_bonus)
 VALUES
@@ -71,9 +81,7 @@ VALUES
 (3, 400),
 (5, 500);
 
-INSERT INTO ranking(player_id, wins, defeats)
-VALUES
-(1, 4, 3);
+
  
 INSERT INTO team_mate(player_id, best_season)
 VALUES

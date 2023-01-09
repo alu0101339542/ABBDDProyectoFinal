@@ -2,9 +2,113 @@
 hAY QUE PROBAR LOS ON DELETE 
 trigger para no poderte entrar a equipos_torneo si no has clasificado
 trigger para no poder clasificar si no tienes suficientes puntos los jugagadores en el ranking
-
+Añadir la restriccion de inclusividad para clasificacion de torneo
 
 */
+
+-----------------------------------------------------------------------------------Calculated attributes----------------------------------------------------------------
+
+
+--Calculate number of courts
+CREATE OR REPLACE FUNCTION update_number_courts()
+RETURNS TRIGGER AS $ncourts$
+BEGIN
+    UPDATE facility
+    SET number_courts = (SELECT COUNT(*) FROM court WHERE facility_id = NEW.facility_id)
+    WHERE facility_id = NEW.facility_id;
+    RETURN NULL;
+END;
+$ncourts$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_number_courts_trigger
+AFTER INSERT OR UPDATE OR DELETE
+ON court
+FOR EACH ROW
+EXECUTE PROCEDURE update_number_courts();
+
+--function to assure the same player is not in two different teams
+/*CREATE OR REPLACE FUNCTION set_team_points()
+RETURNS TRIGGER AS $tp$
+BEGIN
+  WITH 
+    A AS (
+      SELECT player_id, points, team_id
+      FROM ranking r
+      JOIN team t ON t.player_1 = r.player_id
+    ), 
+    B AS (
+      SELECT player_id, points, team_id
+      FROM ranking r
+      JOIN team t ON t.player_2 = r.player_id
+    ), 
+    Poin AS (
+      SELECT a.points + b.points as points, A.team_id
+      FROM A a JOIN B b ON a.team_id = b.team_id
+  )
+  UPDATE teams_qualified
+  SET teampoints = (SELECT points FROM Poin p WHERE team_id = NEW.team_id)
+  WHERE team_id = NEW.team_id;
+  RETURN NULL;
+END;
+$tp$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION set_team_points()
+RETURNS TRIGGER AS $tp$
+BEGIN
+ UPDATE teams_qualified
+ SET teampoints = (SELECT SUM(points)
+      FROM ranking r
+      JOIN team t ON t.player_1 = r.player_id
+      WHERE t.team_id = NEW.team_id
+      GROUP BY t.team_id) + (SELECT SUM(points)
+      FROM ranking r
+      JOIN team t ON t.player_2 = r.player_id
+      WHERE t.team_id = NEW.team_id
+      GROUP BY t.team_id);
+
+  RETURN NULL;
+END;
+$tp$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_team_points_trigger
+AFTER INSERT OR UPDATE OR DELETE
+ON teams_qualified
+FOR EACH ROW
+EXECUTE PROCEDURE set_team_points();*/
+
+
+--Ranking
+CREATE OR REPLACE FUNCTION update_ranking()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- update the wins column for the winning team's players
+  UPDATE ranking
+  SET wins = wins + 1
+  WHERE player_id IN (
+    SELECT player_1 FROM team WHERE team_id = NEW.winner
+    UNION
+    SELECT player_2 FROM team WHERE team_id = NEW.winner
+  );
+
+  -- update the defeats column for the losing team's players
+  UPDATE ranking
+  SET defeats = defeats + 1
+  WHERE player_id IN (
+    SELECT player_1 FROM team WHERE team_id = NEW.team1_id OR team_id = NEW.team2_id
+    UNION
+    SELECT player_2 FROM team WHERE team_id = NEW.team1_id OR team_id = NEW.team2_id
+  );
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER update_ranking
+AFTER INSERT ON match
+FOR EACH ROW
+EXECUTE PROCEDURE update_ranking();
+*/
+----------------------------------------------------------------------- triggers-------------------------------------------------------------------------------------------------
 
 --This function will get the number of distinct teams registered for the current tournament, and check if that number is a power of 2. If it is not, it will raise an exception.
 CREATE OR REPLACE FUNCTION NumberofParticipants() 
@@ -99,4 +203,72 @@ CREATE TRIGGER check_winner_played
 AFTER INSERT OR UPDATE ON tournament_teams
 FOR EACH ROW
 EXECUTE PROCEDURE winner_played();
+
+
+--Function to check wether a qualified tiem has 2 or more players in the ranking
+CREATE OR REPLACE FUNCTION player_ranking() RETURNS TRIGGER AS $pla_rank$
+  BEGIN
+      WITH TeamP AS ( 
+      SELECT player_id, team_id
+      FROM ranking r
+      JOIN team t ON t.player_1 = r.player_id
+      union
+      SELECT player_id, team_id
+      FROM ranking r
+      JOIN team t ON t.player_2 = r.player_id)
+    IF (SELECT COUNT(tp.player_id) FROM TeamP tp JOIN teams_qualified t ON tp.team_id = t.team_id GROUP BY tp.team_id) < 2 THEN
+      RAISE EXCEPTION 'El equipo no puede clasificar al torneo porque no tiene al menos 2 jugadores en el ranking';
+    END IF;
+    RETURN NEW;
+  END;
+$pla_rank$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_player_ranking
+AFTER INSERT OR UPDATE ON teams_qualified
+FOR EACH ROW
+EXECUTE PROCEDURE player_ranking();
+
+
+
+--Can a team qualify to the tournament
+
+/*CREATE OR REPLACE FUNCTION check_ranking_points()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- check if the sum of the ranking points of the players on the team
+  -- is greater than or equal to the required points to play in the tournament
+  IF (SELECT SUM(points) FROM ranking WHERE player_id IN (SELECT player_1, player_2 FROM team WHERE team_id = NEW.team_id)) < (SELECT points_to_play FROM tournament WHERE tournament_id = NEW.tournament_id) THEN
+    RAISE EXCEPTION 'Team does not have enough ranking points to participate in the tournament';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;*/
+/*CREATE OR REPLACE FUNCTION check_ranking_points()
+RETURNS TRIGGER AS $$
+BEGIN
+  WITH A AS (
+    SELECT player_id, points, team_id
+    FROM ranking r
+    JOIN team t ON t.player_1 = r.player_id
+  ), B AS (
+    SELECT player_id, points, team_id
+    FROM ranking r
+    JOIN team t ON t.player_2 = r.player_id
+  ), Poin as(SELECT a.points + b.points as points, A.team_id
+  FROM A a JOIN B b ON a.team_id = b.team_id;)
+  IF (SELECT points FROM Poin < SELECT points FROM tournament) then 
+    RAISE EXCEPTION 'El equipo no puede clasificar el torneo ya que no tiene suficientes';
+  END IF;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;*/
+/*
+CREATE TRIGGER check_ranking_points
+BEFORE INSERT ON teams_qualified
+FOR EACH ROW
+EXECUTE PROCEDURE check_ranking_points();*/
+
+
 

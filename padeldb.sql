@@ -124,12 +124,15 @@ CREATE TABLE match(
   match_id INT GENERATED ALWAYS AS IDENTITY,
   team1_id INT,
   team2_id INT,
-  team1_score INT,/*Numero de juegos ganados*/
-  team2_score INT,/*Numero de juegos ganados*/
+  team1_score numeric,/*Numero de juegos ganados*/
+  team2_score numeric,/*Numero de juegos ganados*/
   facility_id INT,
-  winner INT DEFAULT NULL,
   match_date DATE,
   tournament_id INT DEFAULT NULL,
+  winner INT GENERATED ALWAYS AS(case when team1_score > team2_score
+            then team1_id
+            else team2_id
+       end ) STORED,
   CHECK (team1_id != team2_id),
 
   /*Nos aseguramos que solo puede dar resultados posibles para el padel */
@@ -165,7 +168,7 @@ CREATE TABLE ranking(
   player_id INT UNIQUE,
   wins INT DEFAULT 0,
   defeats INT DEFAULT 0,
-  points INT DEFAULT 0,
+  points INT GENERATED ALWAYS AS (wins * 1.25 - defeats) STORED,
   PRIMARY KEY (player_id),
   CONSTRAINT fk_players_ranking
     FOREIGN KEY (player_id) REFERENCES player(player_id)
