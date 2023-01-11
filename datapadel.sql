@@ -42,7 +42,6 @@ VALUES
 
 (3, 4),
 (3, 1);
-
 INSERT INTO facility(f_location)
 VALUES
 ('La Cuesta');
@@ -89,3 +88,8 @@ VALUES
 (4, 2020-2021),
 (6, 2019-2020);
  
+INSERT INTO employee(employee_name, match_id, organizer, referee)
+VALUES
+('Pepe', 1, true, false),
+('Monica', 2, false, true),
+('Pablo', 2, false, true);

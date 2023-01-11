@@ -93,7 +93,7 @@ ON tournament_teams (tournament_id, team_id);
 
 CREATE TABLE facility(
   facility_id INT GENERATED ALWAYS AS IDENTITY,
-  number_courts INT DEFAULT 0,
+  number_courts INT DEFAULT 0, --Calculated atribute
   f_location VARCHAR(30),
   PRIMARY KEY (facility_id)
 );
@@ -101,7 +101,8 @@ CREATE TABLE facility(
 CREATE TABLE court(
   court_id INT GENERATED ALWAYS AS IDENTITY,
   facility_id INT,
-  price numeric(4,1),
+  price numeric(4,1), 
+  CHECK (price >= 0),
   PRIMARY KEY (court_id),
   CONSTRAINT fk_court_facility
     FOREIGN KEY (facility_id) REFERENCES facility(facility_id)
@@ -172,6 +173,20 @@ CREATE TABLE ranking(
   PRIMARY KEY (player_id),
   CONSTRAINT fk_players_ranking
     FOREIGN KEY (player_id) REFERENCES player(player_id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+CREATE TABLE employee (
+    employee_id INT GENERATED ALWAYS AS IDENTITY,
+    employee_name VARCHAR(30) NOT NULL,
+    match_id INT, 
+    organizer BOOLEAN NOT NULL,
+    referee BOOLEAN NOT NULL,
+    CHECK((organizer = true AND referee = false) OR (organizer = false AND referee = true)),
+    PRIMARY KEY (employee_id),
+    CONSTRAINT fk_employee_match
+    FOREIGN KEY (match_id) REFERENCES match(match_id)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 );

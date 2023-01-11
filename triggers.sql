@@ -76,7 +76,7 @@ ON teams_qualified
 FOR EACH ROW
 EXECUTE PROCEDURE set_team_points();*/
 
-
+/*
 --Ranking
 CREATE OR REPLACE FUNCTION update_ranking()
 RETURNS TRIGGER AS $$
@@ -179,7 +179,7 @@ BEGIN
     IF LENGTH(NEW.phone_number::text) <> 9 THEN
         RAISE EXCEPTION 'Phone number must be exactly 9 digits';
     END IF;
-    RETURN NEW;
+    RETURN NEW; 
 END;
 $number_length$ LANGUAGE plpgsql;
 
@@ -206,7 +206,7 @@ EXECUTE PROCEDURE winner_played();
 
 
 --Function to check wether a qualified tiem has 2 or more players in the ranking
-CREATE OR REPLACE FUNCTION player_ranking() RETURNS TRIGGER AS $pla_rank$
+/*CREATE OR REPLACE FUNCTION player_ranking() RETURNS TRIGGER AS $pla_rank$
   BEGIN
       WITH TeamP AS ( 
       SELECT player_id, team_id
@@ -216,7 +216,7 @@ CREATE OR REPLACE FUNCTION player_ranking() RETURNS TRIGGER AS $pla_rank$
       SELECT player_id, team_id
       FROM ranking r
       JOIN team t ON t.player_2 = r.player_id)
-    IF (SELECT COUNT(tp.player_id) FROM TeamP tp JOIN teams_qualified t ON tp.team_id = t.team_id GROUP BY tp.team_id) < 2 THEN
+    IF (SELECT COUNT(tp.player_id) FROM TeamP tp JOIN teams_qualified t ON tp.team_id = t.team_id GROUP BY tp.team_id < 2) THEN
       RAISE EXCEPTION 'El equipo no puede clasificar al torneo porque no tiene al menos 2 jugadores en el ranking';
     END IF;
     RETURN NEW;
@@ -226,11 +226,14 @@ $pla_rank$ LANGUAGE plpgsql;
 CREATE TRIGGER check_player_ranking
 AFTER INSERT OR UPDATE ON teams_qualified
 FOR EACH ROW
-EXECUTE PROCEDURE player_ranking();
+EXECUTE PROCEDURE player_ranking();*/
 
 
 
---Can a team qualify to the tournament
+
+
+
+--Can a team qualify for the tournament
 
 /*CREATE OR REPLACE FUNCTION check_ranking_points()
 RETURNS TRIGGER AS $$
@@ -244,6 +247,8 @@ BEGIN
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;*/
+
+
 /*CREATE OR REPLACE FUNCTION check_ranking_points()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -266,7 +271,7 @@ END;
 $$ LANGUAGE plpgsql;*/
 /*
 CREATE TRIGGER check_ranking_points
-BEFORE INSERT ON teams_qualified
+AFTER INSERT ON teams_qualified
 FOR EACH ROW
 EXECUTE PROCEDURE check_ranking_points();*/
 
