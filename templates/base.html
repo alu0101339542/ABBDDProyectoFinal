@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %} - Torneo de padel</title>
+    <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/a3f8c17b-fa51-4e3e-a116-03fbe68e85b2-profile_image-70x70.png" alt="Logo">
+    <style>
+        nav a {
+            color: #4144d6;
+            font-size: 1em;
+            margin-left: 20px;
+            text-decoration: none;
+        }
+
+        .tournament {
+            padding: 20px;
+            margin: 10px;
+            background-color: #f7f4f4;
+        }
+
+        .review {
+                margin-left: 20px;
+                font-size: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('index') }}">World Padel Tour</a>
+        <a href="{{ url_for('createplayer') }}">Crear jugador</a>
+        <a href="{{ url_for('createteam') }}">Crear equipo</a>
+        <a href="{{ url_for('creatematch') }}">Crear partido</a>
+        <a href="{{ url_for('createtournament') }}">Crear torneo</a>        
+        <a href="{{ url_for('createtournamentteams') }}">Crear equipos torneo</a>
+        <a href="{{ url_for('deleteplayer') }}">Borrar jugador</a>
+        <a href="{{ url_for('deletematch') }}">Borrar partido</a>
+        <a href="{{ url_for('deletetournament') }}">Borrar torneo</a>
+        <a href="{{ url_for('deleteteam') }}">Borrar equipo</a>
+        <a href="{{ url_for('updateplayer') }}">Actualizar jugador</a>
+        <a href="{{ url_for('updatematch') }}">Actualizar partido</a>
+        <a href="{{ url_for('updatetournament') }}">Actualizar torneo</a>
+        <a href="{{ url_for('showplayer') }}">Mostar jugador</a>
+        <a href="{{ url_for('showtournament') }}">Mostar torneo</a>
+        <a href="{{ url_for('showteam') }}">Mostar equipo</a>
+        <a href="{{ url_for('showranking') }}">Mostar ranking</a>
+        <a href="{{ url_for('showmatch') }}">Mostar partido</a>    
+        
+      </nav>
+    <hr>
+    <div class="content">
+        {% block content %} {% endblock %}
+    </div>
+</body>
+</html>

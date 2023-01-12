@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Actualizar un torneo{% endblock %}</h1>
+    <form method="post">
+        <p>
+            <label for="tournament_id">Id del torneo</label>
+            <input type="number" name="tournament_id"
+                placeholder="nuevo id del torneo">
+            </input>
+        </p>
+        <p>
+            <label for="tournament_name">Nuevo nombre del Torneo</label>
+            <input type="text" name="tournament_name"
+                placeholder="nuevo nombre del torneo ">
+            </input>
+        </p>
+        <p>
+            <label for="begining_date">Fecha de inicio</label>
+            <input type="date" name="begining_date"
+                placeholder="nueva fecha de inicio ">
+            </input>
+        </p>
+
+        <p>
+            <label for="endining_date">Fecha de fin</label>
+            <input type="date" name="endining_date"
+                placeholder="nueva fecha de finalizacion ">
+            </input>
+        </p>
+
+        <p>
+            <label for="winner">tournament winner</label>
+            <input type="number" name="winner"
+                placeholder="nuevo ganador ">
+            </input>
+        </p>
+        <p>
+            <label for="facility_id">Id del complejo</label>
+            <input type="number" name="facility_id"
+                placeholder="facility id a actualizar">
+            </input>
+        </p>
+        <p>
+            <label for="points_to_play">Puntos para jugar</label>
+            <input type="number" name="points_to_play"
+                placeholder="nuevos puntos para jugar ">
+            </input>
+        </p>      
+
+        <p>
+            <button type="submit">Actualizar</button>
+        </p>
+    </form>
+{% endblock %}

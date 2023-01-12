@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{% block title %} Añadir un nuevo equipo al torneo {% endblock %}</h1>
+    <form method="post">        
+        <p>
+            <label for="tournament_id">tournament_id</label>
+            <input type="number" name="tournament_id"
+                   placeholder="id del torneo ">
+            </input>
+        </p>
+        <p>
+            <label for="team_id">team_id</label>
+            <input type="number" name="team_id"
+                   placeholder="id del equipo ">
+            </input>
+        </p>  
+
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+{% endblock %}

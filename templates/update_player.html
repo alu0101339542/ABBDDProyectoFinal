@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Actualizar un jugador{% endblock %}</h1>
+    <form method="post">
+        <p>
+            <label for="player_id">player Id</label>
+            <input type="number" name="player_id"
+                placeholder=" nuevo id del jugador ">
+            </input>
+        </p>
+
+        <p>
+            <label for="playe_name">Player name </label>
+            <input type="text" name="player_name"
+                placeholder="nuevo nombre ">
+            </input>
+        </p>
+
+        <p>
+            <label for="phone_number">phone number</label>
+            <input type="number" name="phone_number"
+                placeholder="nuevo numero ">
+            </input>
+        </p>
+
+        <p>
+            <button type="submit">Update</button>
+        </p>
+    </form>
+{% endblock %}

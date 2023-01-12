@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Partidos{% endblock %}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>partido id</th>
+                <th>eq1 id</th>
+                <th>eq2 id</th>
+                <th>p.eq1</th>
+                <th>p.eq2</th>
+                <th>complejo</th>
+                <th>ganador</th>
+                <th>fecha</th>
+                <th>torneo id</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for match in match %}
+                <tr>
+                    <td>{{ match[0] }}</td>
+                    <td>{{ match[1] }}</td>
+                    <td>{{ match[2] }}</td>
+                    <td>{{ match[3] }}</td>
+                    <td>{{ match[4] }}</td>
+                    <td>{{ match[5] }}</td>
+                    <td>{{ match[6] }}</td>
+                    <td>{{ match[7] }}</td>
+                    <td>{{ match[8] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Borrar un jugador{% endblock %}</h1>
+    <form method="post">
+        <p>
+            <label for="player_name">Nombre </label>
+            <input type="text" name="player_name"
+            placeholder="Nombre del jugador a borrar">
+           </input>
+        </p>
+        <p>
+            <button type="Borrar">Submit</button>
+        </p>
+    </form>
+{% endblock %}

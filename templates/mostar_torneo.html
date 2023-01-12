@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Torneo {% endblock %}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>id_torneo</th>
+                <th>Nombre</th>
+                <th>Fecha inicio</th>
+                <th>Fecha fin</th>
+                <th>Ganador</th>
+                <th>Puntos requeridos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tournaments in tournaments %}
+                <tr>
+                    <td>{{ tournaments[0] }}</td>
+                    <td>{{ tournaments[1] }}</td>
+                    <td>{{ tournaments[2] }}</td>
+                    <td>{{ tournaments[3] }}</td>
+                    <td>{{ tournaments[4] }}</td>
+                    <td>{{ tournaments[5] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

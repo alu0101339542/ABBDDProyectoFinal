@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{% block title %} Añadir un nuevo torneo {% endblock %}</h1>
+    <form method="post">
+        <p>
+            <label for="tournament_name">tournament name</label>
+            <input type="text" name="tournament_name"
+                   placeholder="nombre del torneo ">
+            </input>
+        </p>
+        <p>
+            <label for="begining_date"> begining date</label>
+            <input type="date" name="begining_date"
+                   placeholder="Fecha de comienzo">
+            </input>
+        </p>
+        <p>
+            <label for="ending_date">ending date</label>
+            <input type="date" name="ending_date"
+                   placeholder="Fecha de finalizacion ">
+            </input>
+        </p>
+
+        <p>
+            <label for="winner">team winner</label>
+            <input type="number" name="winner"
+                   placeholder=" Equipo ganador">
+            </input>
+        </p>
+        <p>
+            <label for="points_to_play">points to play</label>
+            <input type="number" name="points_to_play"
+                   placeholder="Puntos a jugar">
+            </input>
+        </p>
+
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+{% endblock %}

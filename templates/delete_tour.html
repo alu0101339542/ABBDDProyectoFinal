@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Borrar un torneo {% endblock %}</h1>
+    <form method="post">
+        <p>
+            <label for="tournament_id">tournament_id</label>
+            <input type="number" name="tournament_id"
+            placeholder="id del torneo a borrar">
+           </input>
+        </p>
+        <p>
+            <button type="Eliminar">Submit</button>
+        </p>
+    </form>
+{% endblock %}

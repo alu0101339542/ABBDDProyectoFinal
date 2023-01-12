@@ -1,0 +1,12 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Torneo {% endblock %}</h1>
+    {% for tournament in tournaments %}
+        <div class='Tournament'>
+            <h3>#{{ tournament[0] }} - ({{ tournament[1] }} - {{ tournament[2] }})</h3>
+            <i><p>(Ganador: {{ tournament[3] }})</p></i>
+            <i><p>(Localizacion :{{ tournament[4] }})</p></i>
+        </div>
+    {% endfor %}
+{% endblock %}

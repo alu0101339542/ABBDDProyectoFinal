@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Ranking {% endblock %}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>nombre</th>
+                <th>victorias</th>
+                <th>derrotas</th>
+                <th>puntos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ranking in ranking %}
+                <tr>
+                    <td>{{ ranking[0] }}</td>
+                    <td>{{ ranking[1] }}</td>
+                    <td>{{ ranking[2] }}</td>
+                    <td>{{ ranking[3] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

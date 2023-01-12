@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Borrar un partido {% endblock %}</h1>
+    <form method="post">
+        <p>
+            <label for="match_id">match_id</label>
+            <input type="number" name="match_id"
+            placeholder="id del partido a borrar">
+           </input>
+        </p>
+        <p>
+            <button type="submit">Submit</button>
+        </p>
+    </form>
+{% endblock %}
