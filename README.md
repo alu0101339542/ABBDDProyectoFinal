@@ -12,7 +12,7 @@
 ### Scripts
 * [Creación de las Tablas](https://github.com/alu0101339542/ABBDDProyectoFinal/blob/master/padeldb.sql)
 * [Creación de los Triggers](https://github.com/alu0101339542/ABBDDProyectoFinal/blob/master/triggers.sql)
-* [Inserción delos datos](https://github.com/alu0101339542/ABBDDProyectoFinal/blob/master/datapadel.sql)
+* [Inserción de los datos](https://github.com/alu0101339542/ABBDDProyectoFinal/blob/master/datapadel.sql)
 * [Ejecución](https://github.com/alu0101339542/ABBDDProyectoFinal/blob/master/run.sql): Fichero que ejecuta los tres scripts de arriba en ese orden.
 ###
 * [Api](https://github.com/alu0101339542/ABBDDProyectoFinal/blob/master/app.py)
