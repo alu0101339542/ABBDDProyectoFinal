@@ -13,16 +13,27 @@ VALUES
 ('Pablo Lima',674269358),
 
 ('chingoto',674269372),
-('El lobo',674223358);
+('El lobo',674223358),
 
+('Matias díaz',674765372),
+('juan Tello',674221181),
+
+('Tapia',674765222),
+('Coello',674221333),
+
+('Momo',674755555),
+('Dineno',674224444);
 
 INSERT INTO team(player_1, player_2)
 VALUES
 (1, 2),
 (3, 4),
---(4, 7),
 (5, 6),
-(7,8); 
+(7,8),
+(9,10),
+(11,12),
+(13,14),
+(15,16); 
 
 INSERT INTO tournament(tournament_name, begining_date, ending_date, winner)
 VALUES 
@@ -36,43 +47,64 @@ VALUES
 (1, 2),
 (1, 3),
 (1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
 
 (2, 3),
 (2, 2),
 
 (3, 4),
-(3, 1);
+(3, 1),
+(3, 8),
+(3, 7);
+
 INSERT INTO facility(f_location)
 VALUES
-('La Cuesta');
+('La Cuesta'),
+('Malmo Centrum'),
+('Polideportivo de merida');
 
 INSERT INTO tournament_facility(tournament_id, facility_id)
 VALUES
-(1,1);
+(1,1),
+(2,2),
+(3,3);
 
 INSERT INTO court(facility_id, price)
 VALUES
 (1,25.75),
-(1,12.3);
+(1,12.3),
+(2, 15.6),
+(2, 24.7),
+(3, 4.3);
 
 INSERT INTO ranking(player_id, wins, defeats)
 VALUES
 (1, 4, 3),
 (2, 3, 4),
-(3,5, 2),
+(3, 5, 2),
 (4, 2, 5),
 (5, 5, 0);
 
 INSERT INTO match(team1_id, team2_id, team1_score, team2_score, facility_id, match_date, tournament_id)
 VALUES
-(1, 2, 6, 3, 1,'2022-04-01',1),
-(2, 3, 5, 7, 1,'2022-04-01', 2);
+(1, 2, 6, 3, 1,'2022-04-01',1), 
+(2, 3, 5, 7, 1,'2022-04-01', 2),
+(4, 1, 7, 6, 2, '2022-07-15', 3),
+(8, 7, 6, 2, 3,'2022-07-15', 3),
+(3, 4, 6, 4, 2, '2022-10-20',2),
+(3, 4, 6, 4, 2, '2022-10-20',2),
+(5, 6, 5, 7, 1, '2022-01-20',2),
+(7, 8, 1, 6, 3, '2022-02-16',2),
+(3, 2, 7, 6, 2, '2022-07-13',2);
 
 
 INSERT INTO teams_qualified(team_id, tournament_id)
 VALUES
 (1, 1),
-(2,3);
+(2, 3);
  
 INSERT INTO captain(player_id, captain_bonus)
 VALUES
