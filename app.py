@@ -261,7 +261,6 @@ def deleteteam():
 #update player
 @app.route('/update/player', methods=('GET','POST'))
 def updateplayer():
-  rows_deleted = 0
   try:
     if request.method == 'POST':
       player_id = int(request.form['player_id'])
@@ -282,11 +281,10 @@ def updateplayer():
 #update match
 @app.route('/update/match/', methods=('GET','POST'))
 def updatematch():
-  rows_deleted = 0
   try:
     if request.method == 'POST':
       match_id = int(request.form['match_id'])
-      team1_id = int(request.form['team1_id']) #no estoy seguro de si hay que actualizarlo aqui o se actualiza en su tabla correspondiente y aqui no 
+      team1_id = int(request.form['team1_id']) 
       team2_id = int(request.form['team2_id'])
       team1_score = int(request.form['team1_score'])
       team2_score = int(request.form['team2_score'])
@@ -295,11 +293,11 @@ def updatematch():
       tournament_id = int(request.form['tournament_id'])
       conn = get_db_connection()
       cur = conn.cursor()
-      cur.execute("UPDATE match SET  team1_id = %s, team2_id = %s,team1_score = %s, team2_score = %s, facility_id= %s ,match_date= %s,tournament_id= %sWHERE match_id = %s",(team1_id , team2_id ,team1_score , team2_score, facility_id,match_date,tournament_id ,match_id ))
+      cur.execute("UPDATE match SET  team1_id = %s, team2_id = %s,team1_score = %s, team2_score = %s, facility_id= %s ,match_date= %s,tournament_id= %s WHERE match_id = %s",(team1_id , team2_id ,team1_score , team2_score, facility_id,match_date,tournament_id ,match_id ))
       conn.commit()
       conn.close()
       cur.close()
-      return redirect(url_for('index'))
+      return redirect(url_for('showmatch'))
   except (Exception, psycopg2.DatabaseError) as error:
         print(error)  
   return render_template('update_match.html')	
@@ -307,22 +305,21 @@ def updatematch():
 #update tournament 
 @app.route('/update/tournament/', methods=('GET','POST'))
 def updatetournament():
-  rows_deleted = 0
   try:
     if request.method == 'POST':
       tournament_id = int(request.form['tournament_id'])
       tournament_name = request.form['tournament_name'] 
-      begining_date = int(request.form['begining_date '])
-      ending_date = int(request.form['ending_date '])
+      begining_date = request.form['begining_date']
+      ending_date = request.form['ending_date']
       winner = int(request.form['winner'])
-      points_to_play = int(request.form['points_to_play '])
+      points_to_play = int(request.form['points_to_play'])
       conn = get_db_connection()
       cur = conn.cursor()
-      cur.execute("UPDATE tournament SET tournament_name = %s,begining_date = %s,ending_date = %s,winner = %s,points_to_play = %s WHERE tournament_id = %s",(tournament_name ,begining_date ,ending_date,winner,points_to_play ,tournament_id ))
+      cur.execute("UPDATE tournament SET tournament_name = %s, begining_date = %s, ending_date = %s, winner = %s, points_to_play = %s WHERE tournament_id = %s",(tournament_name, begining_date, ending_date, winner, points_to_play, tournament_id))
       conn.commit()
       conn.close()
       cur.close()
-      return redirect(url_for('index'))
+      return redirect(url_for('showtournament'))
   except (Exception, psycopg2.DatabaseError) as error:
         print(error)  
   return render_template('update_tournament.html')	
@@ -387,13 +384,13 @@ def showranking():
   conn.close()
   return render_template('mostar_ranking.html', ranking=ranking)
 
-#mostar ranking 
+#mostar partido 
 @app.route('/mostar/partido')
 def showmatch():
   conn = get_db_connection()
   cur = conn.cursor()
   try:
-    cur.execute('SELECT * FROM match;')
+    cur.execute('SELECT * FROM match order BY match_id ASC;')
   except errors.InFailedSqlTransaction as err:
     # pass exception to function
       print(err)
